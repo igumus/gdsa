@@ -1,6 +1,8 @@
 package transducer
 
 import (
+	"fmt"
+
 	"github.com/igumus/gdsa/types"
 )
 
@@ -10,16 +12,27 @@ type ReducerFunction[T any] func(any, *bool, ...T) any
 type Transducer[A, B any] func(ReducerFunction[A]) ReducerFunction[B]
 
 func Append[A any](output any, reduced *bool, items ...A) any {
-	acc := output.([]A)
 	if len(items) == 0 || *reduced {
-		return acc
+		return output
 	}
+
 	item := items[0]
-	acc = append(acc, item)
-	return acc
+	switch acc := output.(type) {
+	case []A:
+		acc = append(acc, item)
+		return acc
+	case types.List[A]:
+		acc = acc.Add(item)
+		return acc
+	default:
+		fmt.Printf("unknown type for append: %T\n", acc)
+		return acc
+
+	}
 }
 
 // TODO (@igumus): add Transduce function
+// TODO (@igumus): add several reduce function on last parameter.
 
 func Reduce[A, T any](rfn ReducerFunction[T], initial A, it types.Iterator[T]) A {
 	reduced := false
