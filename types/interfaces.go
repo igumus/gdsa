@@ -15,6 +15,8 @@ type Collection[T any] interface {
 type List[T any] interface {
 	Collection[T]
 	Create() List[T]
+	Get() T
+	Rest() List[T]
 }
 
 type Indexed[T any] interface {
