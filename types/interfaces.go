@@ -8,7 +8,6 @@ type Iterator[T any] interface {
 type Collection[T any] interface {
 	IsEmpty() bool
 	Count() int
-	Iterator() Iterator[T]
 	ContainsValue(T) bool
 	Add(T) Collection[T]
 }
