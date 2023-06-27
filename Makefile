@@ -13,6 +13,10 @@ test-vector: build ## Test transducers
 	@go clean -testcache
 	@go test -v ./... -race -count=1 -run TestVector
 
+test-list: build ## Test transducers
+	@go clean -testcache
+	@go test -v ./... -race -count=1 -run TestList
+
 test-all: build ## Test transducers
 	@go clean -testcache
 	@go test -v ./... -race -count=1
