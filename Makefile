@@ -3,25 +3,27 @@
 all: help
 
 ## Build:
-tidy: ## Tidy project
-	@go mod tidy
-
 build: tidy ## Build project
+	@go mod tidy
 	@go build .
 
-test-vector: build ## Test transducers
+test-vector: build ## Runs vector2d tests
 	@go clean -testcache
 	@go test -v ./... -race -count=1 -run TestVector
 
-test-list: build ## Test transducers
+test-list: build ## Runs list collection tests 
 	@go clean -testcache
 	@go test -v ./... -race -count=1 -run TestList
 
-test-all: build ## Test transducers
+test-iter: build ## Runs iterator tests
+	@go clean -testcache
+	@go test -v ./... -race -count=1 -run TestIterator
+
+test-all: build ## Runs all tests 
 	@go clean -testcache
 	@go test -v ./... -race -count=1
 
-pre-commit: test ## Checks everything is allright
+pre-commit: test-all ## Checks everything is allright
 	@echo "Commit Status: OK"
 
 ## Help:
