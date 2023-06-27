@@ -12,6 +12,12 @@ func sqrt(val float64) float64 {
 	return round11(math.Sqrt(val))
 }
 
+// Checks given vector is zero vector.
+// Zero vector is a vector which all fields (x,y,angle,length) is zero
+func IsZeroVector(v *Vector) bool {
+	return zeroVector.Equal(v)
+}
+
 // Calculates the Euclidean distance between two vectors.
 func Distance(v0, v1 *Vector) float64 {
 	return v0.Distance(v1)

@@ -9,7 +9,11 @@ tidy: ## Tidy project
 build: tidy ## Build project
 	@go build .
 
-test: build ## Test transducers
+test-vector: build ## Test transducers
+	@go clean -testcache
+	@go test -v ./... -race -count=1 -run TestVector
+
+test-all: build ## Test transducers
 	@go clean -testcache
 	@go test -v ./... -race -count=1
 

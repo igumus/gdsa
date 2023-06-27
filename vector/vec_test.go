@@ -7,9 +7,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestVectorZero(t *testing.T) {
+	assert.True(t, IsZeroVector(CreateWithPoints(0.0, 0.0)))
+	assert.False(t, IsZeroVector(CreateUnit(0.0)))
+	assert.False(t, IsZeroVector(CreateWithAngleAndLength(0.01, 10)))
+}
+
 func TestVectorCreation(t *testing.T) {
 	v := CreateWithPoints(0.0, 0.0)
-	assert.Equal(t, v, ZeroVector)
+	assert.True(t, IsZeroVector(v))
 
 	length := 2.0
 	x := sqrt(3)
@@ -136,12 +142,12 @@ func TestVectorLerp(t *testing.T) {
 	amount := 0.5
 	target := CreateWithPoints(100.0, 100.0)
 
-	v0 := ZeroVector.Clone()
+	v0 := Create()
 	v0.Lerp(target, amount)
 	assert.Equal(t, expected.x, v0.x)
 	assert.Equal(t, expected.y, v0.y)
 
-	v0 = ZeroVector.Clone()
+	v0 = Create()
 	v2 := Lerp(v0, target, amount)
 	assert.Equal(t, expected.x, v2.x)
 	assert.Equal(t, expected.y, v2.y)

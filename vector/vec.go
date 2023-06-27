@@ -4,12 +4,8 @@ import (
 	"math"
 )
 
-const (
-	unitVectorLength = 1.0
-)
-
 var (
-	ZeroVector *Vector = &Vector{x: 0, y: 0, length: 0, angle: 0}
+	zeroVector = Create()
 )
 
 type Vector struct {
@@ -21,9 +17,20 @@ type Vector struct {
 	angle  float64
 }
 
+func Create() *Vector {
+	return &Vector{x: 0, y: 0, length: 0, angle: 0}
+}
+
+func (v *Vector) Equal(o *Vector) bool {
+	if v == nil || o == nil {
+		return false
+	}
+	return v.x == o.x && v.y == o.y && v.Angle() == o.Angle()
+}
+
 // Creates vector with given x and y coordinates.
 func CreateWithPoints(x, y float64) *Vector {
-	v := ZeroVector.Clone()
+	v := Create()
 	v.x = x
 	v.y = y
 
@@ -37,7 +44,7 @@ func CreateWithPoints(x, y float64) *Vector {
 // Creates unit vector (https://en.wikipedia.org/wiki/Unit_vector)
 // with given angle
 func CreateUnit(angle float64) *Vector {
-	return CreateWithAngleAndLength(angle, unitVectorLength)
+	return CreateWithAngleAndLength(angle, 1.0)
 }
 
 // Creates vector according to given angle and length
@@ -87,8 +94,8 @@ func (v *Vector) Add(other *Vector) {
 	v.x += other.x
 	v.y += other.y
 
-	if other != ZeroVector {
-		v.length = math.Inf(1)
+	if !zeroVector.Equal(v) {
+		v.resetLength()
 	}
 }
 
@@ -97,8 +104,8 @@ func (v *Vector) Sub(other *Vector) {
 	v.x -= other.x
 	v.y -= other.y
 
-	if other != ZeroVector {
-		v.length = math.Inf(1)
+	if !zeroVector.Equal(v) {
+		v.resetLength()
 	}
 }
 
