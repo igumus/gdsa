@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStringIterator(t *testing.T) {
+func TestIteratorOverString(t *testing.T) {
 	testcases := []struct {
 		name     string
 		input    string
@@ -44,7 +44,7 @@ func TestStringIterator(t *testing.T) {
 	}
 }
 
-func TestSliceIterator(t *testing.T) {
+func TestIteratorOverSlice(t *testing.T) {
 	testcases := []struct {
 		name     string
 		input    []int
@@ -88,7 +88,7 @@ func TestSliceIterator(t *testing.T) {
 	assert.Equal(t, false, iterator.HasNext())
 }
 
-func TestRangeIterator(t *testing.T) {
+func TestIteratorOverRange(t *testing.T) {
 	end := 10
 	it := NewFiniteRange(WithEnd(end))
 	i := 0
