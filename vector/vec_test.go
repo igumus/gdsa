@@ -29,7 +29,80 @@ func TestVectorCreation(t *testing.T) {
 	assert.Equal(t, v0.y, v1.y)
 	assert.Equal(t, v0.length, v1.length)
 	assert.Equal(t, v0.Angle(), v1.Angle())
+}
 
+// Test for vector scaling using scale method in vector.
+// The test also covers Divide and Multiply methods.
+func TestVectorScale(t *testing.T) {
+	testcases := []struct {
+		name            string
+		factor          float64
+		lengthResettted bool
+	}{
+		{
+			name:            "scaleByZero",
+			factor:          0.0,
+			lengthResettted: false,
+		},
+		{
+			name:            "scaleByOne",
+			factor:          1.0,
+			lengthResettted: false,
+		},
+		{
+			name:            "scaleByNegativeOne",
+			factor:          -1.0,
+			lengthResettted: false,
+		},
+		{
+			name:            "scaleByPositiveInfinity",
+			factor:          math.Inf(1),
+			lengthResettted: false,
+		},
+		{
+			name:            "scaleByZeroInfinity",
+			factor:          math.Inf(0),
+			lengthResettted: false,
+		},
+		{
+			name:            "scaleByNegativeInfinity",
+			factor:          math.Inf(-1),
+			lengthResettted: false,
+		},
+		{
+			name:            "scaleByPositiveScalar",
+			factor:          3.0,
+			lengthResettted: true,
+		},
+		{
+			name:            "scaleByPositiveFriction",
+			factor:          3.50,
+			lengthResettted: true,
+		},
+	}
+
+	for _, tc := range testcases {
+		t.Run(tc.name, func(t *testing.T) {
+			factor := tc.factor
+			var (
+				dx, dy float64
+			)
+			v0 := CreateWithPoints(10.0, 20.0)
+			v0.Length()
+			v0.Angle()
+			if !math.IsInf(factor, 0) && !math.IsInf(factor, 1) && !math.IsInf(factor, 0) && !math.IsInf(factor, -1) {
+				dx = factor * v0.x
+				dy = factor * v0.y
+			} else {
+				dx = v0.x
+				dy = v0.y
+			}
+			v0.scale(tc.factor)
+			assert.Equal(t, dx, v0.x)
+			assert.Equal(t, dy, v0.y)
+			assert.Equal(t, tc.lengthResettted, math.IsInf(v0.length, 1))
+		})
+	}
 }
 
 func TestVectorRotate(t *testing.T) {
@@ -91,7 +164,7 @@ func TestVectorUnit(t *testing.T) {
 	assert.Equal(t, v.y, expectedY)
 }
 
-func TestVectorAngle(t *testing.T) {
+func TestVectorAngleCalculation(t *testing.T) {
 	v := CreateWithPoints(10.0, 20.0)
 	assert.Equal(t, 1.10714871779, v.Angle())
 }
