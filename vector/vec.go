@@ -21,13 +21,6 @@ func Create() *Vector {
 	return &Vector{x: 0, y: 0, length: 0, angle: 0}
 }
 
-func (v *Vector) Equal(o *Vector) bool {
-	if v == nil || o == nil {
-		return false
-	}
-	return v.x == o.x && v.y == o.y && v.Angle() == o.Angle()
-}
-
 // Creates vector with given x and y coordinates.
 func CreateWithPoints(x, y float64) *Vector {
 	v := Create()
@@ -80,6 +73,13 @@ func (v *Vector) Length() float64 {
 	return v.length
 }
 
+func (v *Vector) Equal(o *Vector) bool {
+	if v == nil || o == nil {
+		return false
+	}
+	return v.x == o.x && v.y == o.y && v.Angle() == o.Angle()
+}
+
 func (v *Vector) Clone() *Vector {
 	ret := &Vector{}
 	ret.x = v.x
@@ -96,6 +96,7 @@ func (v *Vector) Add(other *Vector) {
 
 	if !zeroVector.Equal(v) {
 		v.resetLength()
+		v.resetAngle()
 	}
 }
 
@@ -106,6 +107,7 @@ func (v *Vector) Sub(other *Vector) {
 
 	if !zeroVector.Equal(v) {
 		v.resetLength()
+		v.resetAngle()
 	}
 }
 

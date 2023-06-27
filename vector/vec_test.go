@@ -7,13 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestVectorZero(t *testing.T) {
+func TestVectorCreation(t *testing.T) {
 	assert.True(t, IsZeroVector(CreateWithPoints(0.0, 0.0)))
 	assert.False(t, IsZeroVector(CreateUnit(0.0)))
 	assert.False(t, IsZeroVector(CreateWithAngleAndLength(0.01, 10)))
-}
 
-func TestVectorCreation(t *testing.T) {
 	v := CreateWithPoints(0.0, 0.0)
 	assert.True(t, IsZeroVector(v))
 
@@ -42,46 +40,55 @@ func TestVectorCreation(t *testing.T) {
 func TestVectorScale(t *testing.T) {
 	testcases := []struct {
 		name            string
+		v               *Vector
 		factor          float64
 		lengthResettted bool
 	}{
 		{
 			name:            "scaleByZero",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          0.0,
 			lengthResettted: false,
 		},
 		{
 			name:            "scaleByOne",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          1.0,
 			lengthResettted: false,
 		},
 		{
 			name:            "scaleByNegativeOne",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          -1.0,
 			lengthResettted: false,
 		},
 		{
 			name:            "scaleByPositiveInfinity",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          math.Inf(1),
 			lengthResettted: false,
 		},
 		{
 			name:            "scaleByZeroInfinity",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          math.Inf(0),
 			lengthResettted: false,
 		},
 		{
 			name:            "scaleByNegativeInfinity",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          math.Inf(-1),
 			lengthResettted: false,
 		},
 		{
 			name:            "scaleByPositiveScalar",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          3.0,
 			lengthResettted: true,
 		},
 		{
 			name:            "scaleByPositiveFriction",
+			v:               CreateWithPoints(10.0, 20.0),
 			factor:          3.50,
 			lengthResettted: true,
 		},
@@ -93,20 +100,19 @@ func TestVectorScale(t *testing.T) {
 			var (
 				dx, dy float64
 			)
-			v0 := CreateWithPoints(10.0, 20.0)
-			v0.Length()
-			v0.Angle()
+			tc.v.Length()
+			tc.v.Angle()
 			if !math.IsInf(factor, 0) && !math.IsInf(factor, 1) && !math.IsInf(factor, 0) && !math.IsInf(factor, -1) {
-				dx = factor * v0.x
-				dy = factor * v0.y
+				dx = factor * tc.v.x
+				dy = factor * tc.v.y
 			} else {
-				dx = v0.x
-				dy = v0.y
+				dx = tc.v.x
+				dy = tc.v.y
 			}
-			v0.scale(tc.factor)
-			assert.Equal(t, dx, v0.x)
-			assert.Equal(t, dy, v0.y)
-			assert.Equal(t, tc.lengthResettted, math.IsInf(v0.length, 1))
+			tc.v.scale(tc.factor)
+			assert.Equal(t, dx, tc.v.x)
+			assert.Equal(t, dy, tc.v.y)
+			assert.Equal(t, tc.lengthResettted, math.IsInf(tc.v.length, 1))
 		})
 	}
 }
