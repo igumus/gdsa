@@ -102,7 +102,7 @@ func TestVectorScale(t *testing.T) {
 			)
 			tc.v.Length()
 			tc.v.Angle()
-			if !math.IsInf(factor, 0) && !math.IsInf(factor, 1) && !math.IsInf(factor, 0) && !math.IsInf(factor, -1) {
+			if !isInfinity(factor) {
 				dx = factor * tc.v.x
 				dy = factor * tc.v.y
 			} else {
@@ -112,7 +112,7 @@ func TestVectorScale(t *testing.T) {
 			tc.v.scale(tc.factor)
 			assert.Equal(t, dx, tc.v.x)
 			assert.Equal(t, dy, tc.v.y)
-			assert.Equal(t, tc.lengthResettted, math.IsInf(tc.v.length, 1))
+			assert.Equal(t, tc.lengthResettted, isInfinity(tc.v.length))
 		})
 	}
 }

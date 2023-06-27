@@ -59,7 +59,7 @@ func (v *Vector) Y() float64 {
 
 // Angle calculates angle between x and y values as radian.
 func (v *Vector) Angle() float64 {
-	if math.IsInf(v.angle, 1) {
+	if isInfinity(v.angle) {
 		v.angle = round11(math.Atan2(v.y, v.x))
 	}
 	return v.angle
@@ -67,7 +67,7 @@ func (v *Vector) Angle() float64 {
 
 // Calculates (if not already cached) length of the vector and returns it.
 func (v *Vector) Length() float64 {
-	if math.IsInf(v.length, 1) {
+	if isInfinity(v.length) {
 		v.length = sqrt(v.x*v.x + v.y*v.y)
 	}
 	return v.length
@@ -162,7 +162,7 @@ func (v *Vector) Lerp(other *Vector, amount float64) {
 // Scales the vector with given factor.
 // Invalidates length cache if factor is not equals to 1.0, -1.0, 0.0
 func (v *Vector) scale(factor float64) {
-	if !math.IsInf(factor, 0) && !math.IsInf(factor, 1) && !math.IsInf(factor, 0) && !math.IsInf(factor, -1) {
+	if isInfinity(factor) {
 		factor = round11(factor)
 		v.x *= factor
 		v.y *= factor

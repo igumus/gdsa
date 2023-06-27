@@ -2,6 +2,10 @@ package vector
 
 import "math"
 
+func isInfinity(factor float64) bool {
+	return math.IsInf(factor, 0) || math.IsInf(factor, 1) || math.IsInf(factor, 0) || math.IsInf(factor, -1)
+}
+
 func round11(val float64) float64 {
 	precision := 11
 	ratio := math.Pow(10, float64(precision))
