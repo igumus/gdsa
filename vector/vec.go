@@ -118,7 +118,7 @@ func (v *Vector) Multiply(factor float64) {
 
 // Divides the vector with given scalar factor.
 func (v *Vector) Divide(factor float64) {
-	v.scale(factor)
+	v.scale(1.0 / factor)
 }
 
 // Rotate  vector by an angle.
@@ -162,7 +162,7 @@ func (v *Vector) Lerp(other *Vector, amount float64) {
 // Scales the vector with given factor.
 // Invalidates length cache if factor is not equals to 1.0, -1.0, 0.0
 func (v *Vector) scale(factor float64) {
-	if isInfinity(factor) {
+	if !isInfinity(factor) {
 		factor = round11(factor)
 		v.x *= factor
 		v.y *= factor
